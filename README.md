@@ -6,6 +6,8 @@ Exploration of the Collatz Conjecture, experimentally verified by many, proven b
 
 ![Flat Plot](./screenshots/flatplot.png)
 
+![animated tree](./screenshots/java_tree1.gif)
+
 ## License
 
 This project is free to use and modify as licensed under the MIT license. See the [LICENSE](LICENSE) file for more details.
