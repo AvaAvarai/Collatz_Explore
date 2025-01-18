@@ -6,7 +6,7 @@ Exploration of the Collatz Conjecture, experimentally verified by many, proven b
 
 ![Flat Plot](./screenshots/flatplot.png)
 
-![animated tree](./screenshots/java_tree1.gif)
+![animated tree](./screenshots/java_tree1.png)
 
 ## License
 
