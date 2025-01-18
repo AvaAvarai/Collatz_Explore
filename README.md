@@ -10,6 +10,9 @@ Range of 100
 Range of 10,000
 ![Flat Plot 2](./screenshots/flatplot2.png)
 
+Range of 100,000
+![Flat Plot 3](./screenshots/flatplot3.png)
+
 ![animated tree](./screenshots/java_tree1.png)
 
 ## License
