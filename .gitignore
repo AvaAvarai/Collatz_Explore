@@ -2,3 +2,4 @@ venv/
 *.class
 *.mp4
 .DS_Store
+collatz_trees/*

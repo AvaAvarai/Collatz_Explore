@@ -44,6 +44,16 @@ def compute_spectrum(G):
     eigenvalues = np.linalg.eigvals(L)
     return np.sort(eigenvalues.real)  # Keep only real values
 
+def save_graph_visualization(G, n, output_dir):
+    """Saves a visualization of the graph G."""
+    plt.figure(figsize=(12, 8))
+    pos = nx.spring_layout(G, k=1, iterations=50)
+    nx.draw(G, pos, node_size=100, node_color='lightblue', 
+            with_labels=True, font_size=8, font_weight='bold')
+    plt.title(f"Collatz Graph (n={n})")
+    plt.savefig(os.path.join(output_dir, f"tree_{n:04d}.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
 def precompute_graphs(n_max):
     """Precompute all graphs up to n_max in parallel."""
     with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
@@ -53,10 +63,19 @@ def precompute_graphs(n_max):
     return graphs
 
 def animate_spectrum(n_max, save_as="collatz_spectrum.mp4"):
-    """Creates an animated spectrum visualization without saving every frame to disk."""
+    """Creates an animated spectrum visualization and saves tree visualizations."""
+    
+    # Create output directory for tree visualizations
+    trees_dir = "collatz_trees"
+    os.makedirs(trees_dir, exist_ok=True)
     
     # Precompute all graphs
     graphs = precompute_graphs(n_max)
+    
+    # Save tree visualizations
+    print("Saving tree visualizations...")
+    for n, G in enumerate(tqdm(graphs), 1):
+        save_graph_visualization(G, n, trees_dir)
 
     # Set up the figure
     fig, ax = plt.subplots()
@@ -93,7 +112,8 @@ def animate_spectrum(n_max, save_as="collatz_spectrum.mp4"):
     writer = animation.FFMpegWriter(fps=30, codec="h264_videotoolbox", bitrate=5000)
     ani.save(save_as, writer=writer)
     print(f"Animation saved as {save_as}")
+    print(f"Tree visualizations saved in {trees_dir}/")
 
 if __name__ == "__main__":
-    n_max = 1000  # Adjust as needed
+    n_max = 100  # Adjust as needed
     animate_spectrum(n_max)
