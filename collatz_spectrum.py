@@ -66,7 +66,10 @@ def save_graph_visualization(G, n, output_dir):
             normalized_y = 0  # Default to 0 if all y-coordinates are the same
         pos[node] = (x, normalized_y)
     
-    nx.draw(G, pos, node_size=100, node_color='lightblue',
+    # Color nodes based on parity (even/odd)
+    node_colors = ['lightblue' if node % 2 == 0 else 'lightcoral' for node in G.nodes()]
+    
+    nx.draw(G, pos, node_size=100, node_color=node_colors,
             with_labels=True, font_size=8, font_weight='bold')
     plt.title(f"Collatz Graph (n={n})")
     plt.savefig(os.path.join(output_dir, f"tree_{n:04d}.png"), dpi=300, bbox_inches='tight')
