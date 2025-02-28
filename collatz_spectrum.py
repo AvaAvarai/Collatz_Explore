@@ -13,6 +13,7 @@ import matplotlib.animation as animation
 from concurrent.futures import ProcessPoolExecutor
 from tqdm import tqdm
 import os
+import shutil
 
 def collatz_sequence(n):
     """Generate the Collatz sequence starting from n and collapse nodes."""
@@ -47,8 +48,25 @@ def compute_spectrum(G):
 def save_graph_visualization(G, n, output_dir):
     """Saves a visualization of the graph G."""
     plt.figure(figsize=(12, 8))
-    pos = nx.spring_layout(G, k=1, iterations=50)
-    nx.draw(G, pos, node_size=100, node_color='lightblue', 
+    pos = nx.minimum_spanning_tree(G)
+    pos = nx.kamada_kawai_layout(G)  # Use Kamada-Kawai for better tree-like layout
+    
+    # Adjust y-coordinates to grow upward
+    y_min = min(coord[1] for coord in pos.values())
+    y_max = max(coord[1] for coord in pos.values())
+    y_range = y_max - y_min
+    
+    # Normalize and invert y coordinates to grow upward
+    for node in pos:
+        x, y = pos[node]
+        # Handle case where y_range is 0 to avoid division by zero
+        if y_range != 0:
+            normalized_y = (y - y_min) / y_range
+        else:
+            normalized_y = 0  # Default to 0 if all y-coordinates are the same
+        pos[node] = (x, normalized_y)
+    
+    nx.draw(G, pos, node_size=100, node_color='lightblue',
             with_labels=True, font_size=8, font_weight='bold')
     plt.title(f"Collatz Graph (n={n})")
     plt.savefig(os.path.join(output_dir, f"tree_{n:04d}.png"), dpi=300, bbox_inches='tight')
@@ -67,7 +85,9 @@ def animate_spectrum(n_max, save_as="collatz_spectrum.mp4"):
     
     # Create output directory for tree visualizations
     trees_dir = "collatz_trees"
-    os.makedirs(trees_dir, exist_ok=True)
+    if os.path.exists(trees_dir):
+        shutil.rmtree(trees_dir)
+    os.makedirs(trees_dir)
     
     # Precompute all graphs
     graphs = precompute_graphs(n_max)
