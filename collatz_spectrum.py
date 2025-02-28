@@ -95,5 +95,5 @@ def animate_spectrum(n_max, save_as="collatz_spectrum.mp4"):
     print(f"Animation saved as {save_as}")
 
 if __name__ == "__main__":
-    n_max = 10000  # Adjust as needed
+    n_max = 1000  # Adjust as needed
     animate_spectrum(n_max)

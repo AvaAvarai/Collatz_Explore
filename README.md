@@ -15,6 +15,8 @@ Range of 100,000
 
 ![animated tree](./screenshots/java_tree1.png)
 
+Spectral Evolution of Collatz Graphs (n = 1 to 1000) – Eigenvalue Analysis & Visualization: <https://youtu.be/aBnr03WjmMk>
+
 ## License
 
 This project is free to use and modify as licensed under the MIT license. See the [LICENSE](LICENSE) file for more details.
