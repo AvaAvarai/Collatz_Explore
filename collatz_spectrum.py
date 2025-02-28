@@ -1,3 +1,11 @@
+# This experiment visualizes the spectral evolution of Collatz graphs by analyzing how the eigenvalues 
+# of the graph Laplacian change as more numbers are added to the graph. For each number n from 1 to n_max, 
+# it constructs an undirected graph where nodes represent numbers in Collatz sequences and edges connect 
+# consecutive numbers in these sequences. The program computes the spectrum (eigenvalues) of each graph's 
+# Laplacian matrix and creates an animation showing how these eigenvalues evolve, potentially revealing 
+# structural patterns in the Collatz conjecture. The computation is parallelized for efficiency and the 
+# result is saved as an MP4 video file.
+
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -87,5 +95,5 @@ def animate_spectrum(n_max, save_as="collatz_spectrum.mp4"):
     print(f"Animation saved as {save_as}")
 
 if __name__ == "__main__":
-    n_max = 5000  # Adjust as needed
+    n_max = 10000  # Adjust as needed
     animate_spectrum(n_max)
