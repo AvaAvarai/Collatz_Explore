@@ -4,6 +4,7 @@
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import matplotlib.pyplot as plt
 
 def collatz_stopping_time(n):
@@ -64,11 +65,21 @@ def main():
     rf = RandomForestRegressor(n_estimators=100, random_state=42)
     rf.fit(X_train, y_train)
     
-    # Evaluate the model
-    train_score = rf.score(X_train, y_train)
-    test_score = rf.score(X_test, y_test)
-    print(f"Training R² score: {train_score:.4f}")
-    print(f"Testing R² score: {test_score:.4f}")
+    # Make predictions
+    y_pred_train = rf.predict(X_train)
+    y_pred_test = rf.predict(X_test)
+    
+    # Calculate comprehensive metrics
+    print("\nModel Performance Metrics:")
+    print("Training Set:")
+    print(f"R² Score: {r2_score(y_train, y_pred_train):.4f}")
+    print(f"RMSE: {np.sqrt(mean_squared_error(y_train, y_pred_train)):.4f}")
+    print(f"MAE: {mean_absolute_error(y_train, y_pred_train):.4f}")
+    
+    print("\nTest Set:")
+    print(f"R² Score: {r2_score(y_test, y_pred_test):.4f}")
+    print(f"RMSE: {np.sqrt(mean_squared_error(y_test, y_pred_test)):.4f}")
+    print(f"MAE: {mean_absolute_error(y_test, y_pred_test):.4f}")
     
     # Feature importance
     feature_names = [
@@ -101,9 +112,6 @@ def main():
     
     # Plot the loss function (prediction errors)
     plt.figure(figsize=(10, 6))
-    y_pred_train = rf.predict(X_train)
-    y_pred_test = rf.predict(X_test)
-    
     train_errors = np.abs(y_train - y_pred_train)
     test_errors = np.abs(y_test - y_pred_test)
     
